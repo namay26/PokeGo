@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <title>PokeGo</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <h1>PokeGo</h1>
+        <h2>Find your Pokemon</h2>
+    </header>
+    <div class="container" id="maincon">
+        <canvas class="canvas" id="game" width="700" height="500">
+        </canvas>
+        <div class="overlay" id="overlay">  
+            <center><h2>Welcome to PokeGO</h2></center>
+            <div class="data" id="data">
+                <div class="instruct">
+                    Kindly choose your Pokemon to start the game. <br>
+                    Which region's starters would you like to choose?
+                </div>
+                <div class="container2">
+                    <button class="btn-box" id="johto" onclick="region()">Johto</button>
+                    <button class="btn-box" id="kanto" onclick="region()">Kanto</button>
+                    <button class="btn-box" id="hoenn" onclick="region()">Hoenn</button>
+                    <button class="btn-box" id="sinnoh" onclick="region()">Sinnoh</button>
+                </div>  
+            </div>
+        </div>
+    </div>
+</body>
+</html>
