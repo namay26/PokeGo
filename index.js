@@ -17,6 +17,9 @@ class sprite{
 
 let starter="";
 let starterid="";
+let encpokid="";
+let yrhlth=200;
+let opphlth=200;
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");	
 const backg=new sprite("utils/map1.png", 5, 5, 690, 490);
@@ -128,8 +131,6 @@ function startgame(){
 	document.getElementById("overlay").remove();	
 	backg.update();
 	pro.update();
-	console.log(starterid);
-	console.log(starter);
 	window.addEventListener("keydown", move);
 }
 
@@ -161,7 +162,7 @@ function move(){
 			pro.update();
 			}
 		}
-		const ifgen=Math.floor(Math.random()*4)+1;
+		const ifgen=Math.floor(Math.random()*7)+1;
 		if(ifgen==1){
 			generateRandomPokemon();
 			alert("A wild pokemon has appeared!");
@@ -170,6 +171,8 @@ function move(){
 
 
 function generateRandomPokemon(){
+	yrhlth=200;
+	opphlth=200;
 	if(document.getElementById("randgen")!=null){
 		const element = document.getElementById("randgen");
 		element.remove();
@@ -183,6 +186,7 @@ function generateRandomPokemon(){
 	.then(async data => {
 		randpoke = data;
 		num1 = randpoke.id;
+		encpokid=num1;
 		nm=randpoke.name;
 		const newpok=document.createElement("div");
 		newpok.id="randgen";
@@ -220,7 +224,7 @@ function battlepok(pokid, tp, lf, nm, back=false){
 		min.appendChild(pokimg);
 		document.getElementById("battle").appendChild(min);
 		battleutils();
-		healthbar(300, 450, nm);
+		healthbar(300, 450, nm, 1);
 	} else{
 		const enemy=document.createElement("div");
 		enemy.id="enemy";
@@ -234,7 +238,7 @@ function battlepok(pokid, tp, lf, nm, back=false){
 		pokimg.style.width="3in";
 		enemy.appendChild(pokimg);
 		document.getElementById("battle").appendChild(enemy);
-		healthbar(100, 100, nm);
+		healthbar(100, 100, nm, 2);
 	}
 
 }
@@ -256,7 +260,6 @@ function battleutils(){
 }
 
 function listattacks(pokid){
-	console.log("Iwas called")
 	fetch("https://pokeapi.co/api/v2/pokemon/" + pokid)
 	.then(response => {
 		const Responsejs = response.json();
@@ -267,6 +270,7 @@ function listattacks(pokid){
 		attacks=pok.moves;
 		for(let i=0; i<4; i++){
 			const attack=document.createElement("button");
+			attack.classList.add("attack");
 			attack.value=attacks[i].move.url;
 			attack.innerHTML=attacks[i].move.name;
 			fetch("https://pokeapi.co/api/v2/move/" + attacks[i].move.name)
@@ -278,6 +282,24 @@ function listattacks(pokid){
 				type=data.type.name;
 				attack.onclick=function(){
 					document.getElementById("attacktype").innerHTML=type;
+					opphlth-=data.power;	
+					if(opphlth<=0) opphlth=0;
+					document.getElementById("red2").style.width=opphlth+"px";
+					const whichattack=document.createElement("div");
+					whichattack.id="whichattack";
+					whichattack.innerHTML="You used "+data.name+"!";	
+					whichattack.classList.add("whichattack");
+					document.getElementById("battle").appendChild(whichattack);
+					if(opphlth==0){
+						alert("The wild pokemon has fainted!");
+						document.getElementById("attackbar").remove();
+						document.getElementById("health").remove();
+						document.getElementById("health").remove();
+						document.getElementById("enemy").remove();
+						document.getElementById("battle").remove();
+						window.addEventListener("keydown", move);
+					}
+					blockattack();
 				}
 			})
 			document.getElementById("attacks").appendChild(attack);
@@ -285,7 +307,57 @@ function listattacks(pokid){
 	});
 }
 
-function healthbar(tp, lft, nm){
+function blockattack(){
+	const blockatt=document.createElement("div");
+	blockatt.id="block";
+	blockatt.classList.add("attackbar");
+	blockatt.innerHTML="The wild pokemon is attacking!";
+	document.getElementById("battle").appendChild(blockatt);
+	setTimeout(oppattack, 1000);
+}
+
+function oppattack(){
+	document.getElementById("whichattack").remove();
+	fetch("https://pokeapi.co/api/v2/pokemon/" + encpokid)
+	.then(response => {
+		const Responsejs = response.json();
+		return Responsejs;
+	})
+	.then(async data => {
+		pok = data;
+		attacks=pok.moves;
+		const rand=Math.floor(Math.random()*4);
+		fetch("https://pokeapi.co/api/v2/move/" + attacks[rand].move.name)
+		.then(response => {
+			const Responsejs = response.json();
+			return Responsejs;
+		})
+		.then(async data=>{
+			yrhlth-=data.power;	
+			if(yrhlth<=0) yrhlth=0;
+			const whichattack=document.createElement("div");
+			whichattack.innerHTML="The wild pokemon used "+data.name+"!";
+			whichattack.id="whichattack";
+			whichattack.classList.add("whichattack");
+			document.getElementById("battle").appendChild(whichattack);
+			document.getElementById("red1").style.width=yrhlth+"px";
+			if(yrhlth==0){
+				alert("Your pokemon has fainted!");
+				document.getElementById("attackbar").remove();
+				document.getElementById("health").remove();
+				document.getElementById("health").remove();
+				document.getElementById("enemy").remove();
+				document.getElementById("battle").remove();
+				window.addEventListener("keydown", move);
+			}
+			document.getElementById("block").remove();
+		})
+	})
+}
+
+
+
+function healthbar(tp, lft, nm, i){
 	const health=document.createElement("div");
 	health.id="health";
 	health.classList.add("health");
@@ -295,10 +367,12 @@ function healthbar(tp, lft, nm){
 	name.innerHTML=nm;
 	const grey=document.createElement("div");
 	const red=document.createElement("div");
+	red.id="red"+i;
 	grey.classList.add("grey");
 	red.classList.add("red");
 	health.appendChild(name);
-	health.appendChild(red);
 	health.appendChild(grey);
+	health.appendChild(red);
 	document.getElementById("battle").appendChild(health);
 }
+
