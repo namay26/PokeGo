@@ -109,9 +109,9 @@ canvas{
 
 
 .min{
-    width:100%;
+    width:auto;
     display: flex;
-    height:50%;
+    height:auto;
     margin-left: 60%;
     margin-top: 12%;
 }
@@ -148,7 +148,7 @@ canvas{
     align-items: center;
 }
 
-.health{
+.health1, .health2{
     position:absolute;
     width:27%;
     height:35px;
@@ -191,4 +191,60 @@ canvas{
     z-index: 9999;
     color:white;
     background-color: rgba(0, 0, 0);
+}
+
+.startbutton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 0.5in;
+    z-index: 9999;
+    width: 100%;
+}
+
+.health2{
+    border-radius: 0.2in 0.2in 0 0.2in;
+    box-shadow: 0.1in 0.1in rgba(0, 0, 0);
+}
+
+.health1{
+    border-radius: 0.2in 0.2in 0.2in 0;
+    box-shadow: -0.1in 0.1in rgba(0, 0, 0);
+}
+
+.newdiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 0.5in;
+    z-index: 9999;
+    width: 100%;
+    position: absolute;
+    background-color: red;
+    top:0;
+}
+
+.faint{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 0.5in;
+    z-index: 9999;
+    width: 100%;
+    position: absolute;
+    background-color: red;
+    top:0;
+}
+.buttons{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+#flee{
+    background-color: grey;
+}
+#win{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

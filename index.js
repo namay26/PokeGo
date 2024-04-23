@@ -116,6 +116,8 @@ function setstarter(){
 	document.getElementById("pok").remove();
 	document.getElementById("data").style.display="block";
 	document.getElementById("data").classList.add("container2");
+	const startbutton=document.createElement("startbutton");
+	startbutton.classList.add("startbutton");
 	document.getElementById("data").innerHTML="You have chosen <span style='color:red'>"+ starter +"</span> as your starter Pokemon!";
 	const ins=document.createElement("p");
 	const but=document.createElement("button");
@@ -123,7 +125,8 @@ function setstarter(){
 	but.innerHTML="Start your journey!";
 	but.onclick=startgame;
 	document.getElementById("data").appendChild(ins);
-	document.getElementById("data").appendChild(but);
+	startbutton.appendChild(but);
+	document.getElementById("data").appendChild(startbutton);
 }
 
 function startgame(){
@@ -141,39 +144,39 @@ function move(){
 	}
 		if(event.key=="ArrowRight"){
 			if(pro.x<600)
-			{pro.x+=10;
+			{pro.x+=5;
 			backg.update();
 			pro.update();
 			
 		}
 		} else if(event.key=="ArrowLeft"){
 			if(pro.x>10)
-			{pro.x-=10;
+			{pro.x-=5;
 			backg.update();
 			pro.update();
 			}
 		} else if(event.key=="ArrowUp"){
 			if(pro.y>10)
-			{pro.y-=10;
+			{pro.y-=5;
 			backg.update();
 			pro.update();
 			}
 		} else if(event.key=="ArrowDown"){
 			if(pro.y<400)
-			{pro.y+=10;
+			{pro.y+=5;
 			backg.update();
 			pro.update();
 			}
 		}
-		const ifgen=Math.floor(Math.random()*7)+1;
+		const ifgen=Math.floor(Math.random()*10)+1;
 		if(ifgen==1){
 			generateRandomPokemon();
-			alert("A wild pokemon has appeared!");
 		}
 }
 
 
 function generateRandomPokemon(){
+	window.removeEventListener("keydown", move);
 	yrhlth=200;
 	opphlth=200;
 	const random=Math.floor(Math.random()*898)+1;
@@ -189,12 +192,17 @@ function generateRandomPokemon(){
 		nm=randpoke.name;
 		const newpok=document.createElement("div");
 		newpok.id="randgen";
-		newpok.innerHTML="<div><img height='150' width='150' src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+num1+".png'></div><div>"+nm+"</div><button value="+num1+" id="+nm+" class='btn-box' onclick='fight()'>Fight</button>";
+		newpok.innerHTML="A wild Pokemon has appeared!"
+		newpok.innerHTML="<div><img height='150' width='150' src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+num1+".png'></div><div>"+nm+"</div><div class='buttons'><button value="+num1+" id="+nm+" class='btn-box' onclick='fight()'>Fight</button><button class='btn-box' id='flee' onclick='flee()'>Flee</button></div>";
 		newpok.classList.add("randgen-box");
 		document.getElementById("maincon").appendChild(newpok);
 	});
 }
 
+function flee(){
+	window.addEventListener("keydown", move);
+	document.getElementById("randgen").remove();
+}
 function fight(){
 	window.removeEventListener("keydown", move);
 	encpok=event.target.value;
@@ -204,7 +212,7 @@ function fight(){
 	battle.id="battle";
 	battle.classList.add("battle");
 	document.getElementById("maincon").appendChild(battle);
-	battlepok(encpok, 70, 400, poknm);
+	battlepok(encpok, 50, 400, poknm);
 	battlepok(starterid, 200, 50, starter, true);
 }
 
@@ -361,7 +369,7 @@ function oppattack(){
 function healthbar(tp, lft, nm, i){
 	const health=document.createElement("div");
 	health.id="health";
-	health.classList.add("health");
+	health.classList.add("health"+i);
 	health.style.top=tp+"px";
 	health.style.left=lft+"px";
 	const name=document.createElement("h2");
