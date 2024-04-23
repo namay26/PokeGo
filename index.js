@@ -135,7 +135,10 @@ function startgame(){
 }
 
 function move(){
-	
+	if(document.getElementById("randgen")!=null){
+		const element = document.getElementById("randgen");
+		element.remove();
+	}
 		if(event.key=="ArrowRight"){
 			if(pro.x<600)
 			{pro.x+=10;
@@ -173,10 +176,6 @@ function move(){
 function generateRandomPokemon(){
 	yrhlth=200;
 	opphlth=200;
-	if(document.getElementById("randgen")!=null){
-		const element = document.getElementById("randgen");
-		element.remove();
-	}
 	const random=Math.floor(Math.random()*898)+1;
 	fetch("https://pokeapi.co/api/v2/pokemon/" + random)
 	.then(response => {
@@ -279,9 +278,11 @@ function listattacks(pokid){
 				return Responsejs;
 			})
 			.then(async data=>{
-				type=data.type.name;
-				attack.onclick=function(){
+				attack.onmouseenter=function(){
+					type=data.type.name;
 					document.getElementById("attacktype").innerHTML=type;
+				}
+				attack.onclick=function(){
 					opphlth-=data.power;	
 					if(opphlth<=0) opphlth=0;
 					document.getElementById("red2").style.width=opphlth+"px";
