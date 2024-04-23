@@ -168,7 +168,7 @@ function move(){
 			pro.update();
 			}
 		}
-		const ifgen=Math.floor(Math.random()*80)+1;
+		const ifgen=Math.floor(Math.random()*65)+1;
 		if(ifgen==1){
 			generateRandomPokemon();
 		}

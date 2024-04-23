@@ -1,6 +1,6 @@
 @font-face {
     font-family: myFirstFont;
-    src: url(PKMN\ RBYGSC.ttf);
+    src: url(assets/PKMN\ RBYGSC.ttf);
 }
 *{
     font-family: myFirstFont;
@@ -94,7 +94,7 @@ canvas{
     position: absolute;
     height:100%;
     width:790px;
-    background:url("utils/battle2.png");
+    background:url("assets/battle2.png");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
