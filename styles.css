@@ -7,7 +7,7 @@
     scroll-behavior: smooth;
 }
 body{
-    background-image: url("utils/backg.jpg");
+    background-image: url("assets/backg.jpg");
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -25,6 +25,7 @@ body{
     position: relative;
     line-height: 30px;
     margin: 0.3in;
+    height:auto;
     justify-content: center;
 }  
 .container2{

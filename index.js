@@ -22,8 +22,8 @@ let yrhlth=200;
 let opphlth=200;
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");	
-const backg=new sprite("utils/map1.png", 5, 5, 690, 490);
-const pro=new sprite("utils/main.png", 0, 0, 100, 100);
+const backg=new sprite("assets/map1.png", 5, 5, 690, 490);
+const pro=new sprite("assets/main.png", 0, 0, 100, 100);
 start();
 
 function start() {
