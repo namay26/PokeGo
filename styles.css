@@ -248,3 +248,12 @@ canvas{
     justify-content: center;
     align-items: center;
 }
+#newdiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width:63.3%;
+    height:92.5%;
+    padding: 0.2in;
+}

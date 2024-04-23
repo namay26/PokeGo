@@ -168,7 +168,7 @@ function move(){
 			pro.update();
 			}
 		}
-		const ifgen=Math.floor(Math.random()*10)+1;
+		const ifgen=Math.floor(Math.random()*80)+1;
 		if(ifgen==1){
 			generateRandomPokemon();
 		}
@@ -300,13 +300,23 @@ function listattacks(pokid){
 					whichattack.classList.add("whichattack");
 					document.getElementById("battle").appendChild(whichattack);
 					if(opphlth==0){
-						alert("The wild pokemon has fainted!");
+						const newdiv=document.createElement("div");
+						newdiv.id="newdiv";
+						newdiv.classList.add("overlay");
+						newdiv.innerHTML="The wild pokemon has fainted!"
+						const goback=document.createElement("button");
+						goback.innerHTML="Go back";
+						goback.onclick=function(){
 						document.getElementById("attackbar").remove();
 						document.getElementById("health").remove();
 						document.getElementById("health").remove();
 						document.getElementById("enemy").remove();
 						document.getElementById("battle").remove();
+						document.getElementById("newdiv").remove();
 						window.addEventListener("keydown", move);
+						}
+						newdiv.appendChild(goback);
+						document.getElementById("maincon").appendChild(newdiv);
 					}
 					blockattack();
 				}
@@ -351,13 +361,23 @@ function oppattack(){
 			document.getElementById("battle").appendChild(whichattack);
 			document.getElementById("red1").style.width=yrhlth+"px";
 			if(yrhlth==0){
-				alert("Your pokemon has fainted!");
+				const newdiv=document.createElement("div");
+				newdiv.id="newdiv";
+				newdiv.classList.add("overlay");
+				const goback=document.createElement("button");
+				newdiv.innerHTML="Your pokemon has fainted!"
+				goback.innerHTML="Go back";
+				goback.onclick=function(){
 				document.getElementById("attackbar").remove();
 				document.getElementById("health").remove();
 				document.getElementById("health").remove();
 				document.getElementById("enemy").remove();
 				document.getElementById("battle").remove();
+				document.getElementById("newdiv").remove();
 				window.addEventListener("keydown", move);
+				}
+				newdiv.appendChild(goback);
+				document.getElementById("maincon").appendChild(newdiv);
 			}
 			document.getElementById("block").remove();
 		})
